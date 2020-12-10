@@ -1,0 +1,22 @@
+{
+	"env_name": "CartPole-v0",
+	"method": "double",
+	"max_step": 199,
+	"agent": {
+		"activation": "relu",
+		"hidden_unit": 256,
+		"discount_factor": 0.99
+	},
+	"optimizer": {
+		"name": "adam",
+		"learning_rate": 1e-4,
+		"eps": 1,
+		"eps_min": 0.01,
+		"eps_mid": 0.1,
+		"eps_anneal": 30000
+	},
+	"memory_size": 50000,
+	"episode_size": 3000,
+	"minibatch_size": 32,
+	"net_update_period": 500
+}
