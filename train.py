@@ -78,7 +78,7 @@ class ReplayMemory:
 class DQNAgent:
     def __init__(self):
         super().__init__()
-        
+
         date_time = datetime.datetime.now().strftime("%Y%m%d-%H_%M_%S")
         self.parser = Json_Parser("config.json")
         self.parm = self.parser.load_parser()
@@ -222,7 +222,7 @@ class DQNAgent:
                     torch.save(self.net.state_dict(), self.net_save_path)
 
                     if np.mean(latest_scores) > pass_score:
-                        print('latest 100 average score: {}, pass score: {}, test is passed'.format(
+                        print('Latest 100 average score: {}, pass score: {}, test is passed'.format(
                             np.mean(latest_scores), pass_score))
                         exit(0)
 

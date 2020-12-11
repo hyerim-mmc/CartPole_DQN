@@ -1,5 +1,6 @@
 import gym
 import numpy as np
+import gym.wrappers
 
 import torch
 import torch.nn as nn
@@ -21,25 +22,27 @@ class test_Qnet(nn.Module):
         # x = F.relu(self.fc2(x))
         # x = self.fc3(x)
 
-        # sigmoid
-        x = torch.sigmoid(self.fc1(x))
-        x = torch.sigmoid(self.fc2(x))
-        x = self.fc3(x)
-
-        # # softmax
-        # x = F.softmax(self.fc1(x), dim=0)
-        # x = F.softmax(self.fc2(x), dim=0)
+        # # sigmoid
+        # x = torch.sigmoid(self.fc1(x))
+        # x = torch.sigmoid(self.fc2(x))
         # x = self.fc3(x)
+
+        # softmax
+        x = F.softmax(self.fc1(x), dim=0)
+        x = F.softmax(self.fc2(x), dim=0)
+        x = self.fc3(x)
 
         return x
 
 
 def test():
-    env = gym.make('CartPole-v0')
+    model_file = 'model_CartPole-v0_vanilla_softmax_256_20201208-16_05_00.pth'
+    env_to_wrap = gym.make('CartPole-v0')
+    env = gym.wrappers.Monitor(env_to_wrap, './result/video/{}'.format(model_file), force=True)
     render = True
 
     net = test_Qnet()
-    net.load_state_dict(torch.load('./result/model/model_CartPole-v0_double_sigmoid_256_20201208-18_36_24.pth'))
+    net.load_state_dict(torch.load('./result/model/' + model_file))
     net.eval()
 
     s_cur = env.reset()
@@ -61,6 +64,7 @@ def test():
             break
 
     env.close()
+    env_to_wrap.close()
     print("Test score: {}".format(score))
 
 
